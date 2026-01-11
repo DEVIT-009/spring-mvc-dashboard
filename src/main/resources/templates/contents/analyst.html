@@ -1,0 +1,158 @@
+<div th:fragment="analyst">
+    <!-- Content Header -->
+    <section class="content-header">
+        <h1>
+            Analyst
+            <small>System analysis overview</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#"><i class="fa fa-dashboard"></i> Dashboard</a>
+            </li>
+            <li class="active">Analyst</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Summary Boxes -->
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-blue">
+                    <div class="inner">
+                        <h3>1,250</h3>
+                        <p>Total Visits</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-eye"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>850</h3>
+                        <p>Active Users</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>65%</h3>
+                        <p>Bounce Rate</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-bar-chart"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>120</h3>
+                        <p>New Signups</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-user-plus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row">
+            <section class="col-lg-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-line-chart"></i> User Growth
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div id="user-growth-chart" style="height: 300px"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="col-lg-6">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-pie-chart"></i> Traffic Sources
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div id="traffic-pie-chart" style="height: 300px"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Analytics Table -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-table"></i> Analytics Details
+                        </h3>
+                    </div>
+                    <div class="box-body table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Page</th>
+                                <th>Visits</th>
+                                <th>Unique Users</th>
+                                <th>Bounce Rate</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>2026-01-10</td>
+                                <td>/home</td>
+                                <td>400</td>
+                                <td>320</td>
+                                <td>50%</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>2026-01-10</td>
+                                <td>/dashboard</td>
+                                <td>300</td>
+                                <td>250</td>
+                                <td>40%</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>2026-01-10</td>
+                                <td>/reports</td>
+                                <td>200</td>
+                                <td>180</td>
+                                <td>60%</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <button class="btn btn-default">
+                            <i class="fa fa-download"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

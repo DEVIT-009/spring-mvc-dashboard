@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title th:text="${pageTitle}">Admin</title>
+  <th:block th:replace="layouts/style :: style"></th:block>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <th:block th:replace="layouts/header :: header"></th:block>
+  <th:block th:replace="layouts/sidebar :: sidebar"></th:block>
+
+  <main class="content-wrapper">
+    <th:block th:replace="~{__${contentTemplate}__}"></th:block>
+  </main>
+
+  <th:block th:replace="layouts/footer :: footer"></th:block>
+  <th:block th:replace="layouts/aside :: aside"></th:block>
+
+</div>
+
+<th:block th:replace="layouts/script :: script"></th:block>
+</body>
+</html>
