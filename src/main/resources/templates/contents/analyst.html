@@ -1,158 +1,267 @@
 <div th:fragment="analyst">
-    <!-- Content Header -->
-    <section class="content-header">
-        <h1>
-            Analyst
-            <small>System analysis overview</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li>
-                <a href="#"><i class="fa fa-dashboard"></i> Dashboard</a>
-            </li>
-            <li class="active">Analyst</li>
-        </ol>
-    </section>
+  <!-- Content Header -->
+  <section class="content-header">
+    <h1>
+      Analyst
+      <small>System analysis overview</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#"><i class="fa fa-dashboard"></i> Dashboard</a>
+      </li>
+      <li class="active">Analyst</li>
+    </ol>
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
-
-        <!-- Summary Boxes -->
-        <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <div class="small-box bg-blue">
-                    <div class="inner">
-                        <h3>1,250</h3>
-                        <p>Total Visits</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-eye"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-xs-6">
-                <div class="small-box bg-green">
-                    <div class="inner">
-                        <h3>850</h3>
-                        <p>Active Users</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-users"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-xs-6">
-                <div class="small-box bg-yellow">
-                    <div class="inner">
-                        <h3>65%</h3>
-                        <p>Bounce Rate</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-bar-chart"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-xs-6">
-                <div class="small-box bg-red">
-                    <div class="inner">
-                        <h3>120</h3>
-                        <p>New Signups</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-user-plus"></i>
-                    </div>
-                </div>
-            </div>
+  <!-- Main content -->
+  <section class="content">
+    <!-- Summary Boxes -->
+    <div class="row">
+      <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-blue">
+          <div class="inner">
+            <h3>1,250</h3>
+            <p>Total Visits</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-eye"></i>
+          </div>
         </div>
+      </div>
 
-        <!-- Charts -->
-        <div class="row">
-            <section class="col-lg-6">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">
-                            <i class="fa fa-line-chart"></i> User Growth
-                        </h3>
-                    </div>
-                    <div class="box-body">
-                        <div id="user-growth-chart" style="height: 300px"></div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="col-lg-6">
-                <div class="box box-success">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">
-                            <i class="fa fa-pie-chart"></i> Traffic Sources
-                        </h3>
-                    </div>
-                    <div class="box-body">
-                        <div id="traffic-pie-chart" style="height: 300px"></div>
-                    </div>
-                </div>
-            </section>
+      <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-green">
+          <div class="inner">
+            <h3>850</h3>
+            <p>Active Users</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-users"></i>
+          </div>
         </div>
+      </div>
 
-        <!-- Analytics Table -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box box-info">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">
-                            <i class="fa fa-table"></i> Analytics Details
-                        </h3>
-                    </div>
-                    <div class="box-body table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Date</th>
-                                <th>Page</th>
-                                <th>Visits</th>
-                                <th>Unique Users</th>
-                                <th>Bounce Rate</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>2026-01-10</td>
-                                <td>/home</td>
-                                <td>400</td>
-                                <td>320</td>
-                                <td>50%</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>2026-01-10</td>
-                                <td>/dashboard</td>
-                                <td>300</td>
-                                <td>250</td>
-                                <td>40%</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>2026-01-10</td>
-                                <td>/reports</td>
-                                <td>200</td>
-                                <td>180</td>
-                                <td>60%</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="box-footer clearfix">
-                        <button class="btn btn-default">
-                            <i class="fa fa-download"></i> Export CSV
-                        </button>
-                    </div>
-                </div>
-            </div>
+      <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-yellow">
+          <div class="inner">
+            <h3>65%</h3>
+            <p>Bounce Rate</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-bar-chart"></i>
+          </div>
         </div>
+      </div>
 
-    </section>
+      <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-red">
+          <div class="inner">
+            <h3>120</h3>
+            <p>New Signups</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-user-plus"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row">
+      <section class="col-lg-6">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">
+              <i class="fa fa-line-chart"></i> User Growth
+            </h3>
+          </div>
+          <div class="box-body">
+            <canvas id="user-growth-chart" width="400" height="300"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-lg-6">
+        <div class="box box-success">
+          <div class="box-header with-border">
+            <h3 class="box-title">
+              <i class="fa fa-pie-chart"></i> Traffic Sources
+            </h3>
+          </div>
+          <div class="box-body">
+            <canvas id="traffic-pie-chart" width="400" height="300"></canvas>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Analytics Table -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">
+              <i class="fa fa-table"></i> Analytics Details
+            </h3>
+          </div>
+          <div class="box-body table-responsive">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Page</th>
+                  <th>Visits</th>
+                  <th>Unique Users</th>
+                  <th>Bounce Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>2026-01-10</td>
+                  <td>/home</td>
+                  <td>400</td>
+                  <td>320</td>
+                  <td>50%</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>2026-01-10</td>
+                  <td>/dashboard</td>
+                  <td>300</td>
+                  <td>250</td>
+                  <td>40%</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>2026-01-10</td>
+                  <td>/reports</td>
+                  <td>200</td>
+                  <td>180</td>
+                  <td>60%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="box-footer clearfix">
+            <button class="btn btn-default">
+              <i class="fa fa-download"></i> Export CSV
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chart.js Scripts for Analyst Page -->
+  <script>
+    $(window).on("load", function () {
+      "use strict";
+      // Wait for Chart.js to be available with retry
+      function initCharts() {
+        if (typeof Chart !== "undefined") {
+          // User Growth Line Chart (Analyst page)
+          if ($("#user-growth-chart").length) {
+            var userGrowthCanvas = $("#user-growth-chart")
+              .get(0)
+              .getContext("2d");
+            var userGrowthChart = new Chart(userGrowthCanvas);
+            var userGrowthData = {
+              labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+              datasets: [
+                {
+                  label: "New Users",
+                  fillColor: "rgba(60,141,188,0.9)",
+                  strokeColor: "rgba(60,141,188,0.8)",
+                  pointColor: "#3b8bba",
+                  pointStrokeColor: "rgba(60,141,188,1)",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(60,141,188,1)",
+                  data: [65, 80, 90, 75, 95, 110, 120],
+                },
+              ],
+            };
+            var userGrowthOptions = {
+              showScale: true,
+              scaleShowGridLines: false,
+              scaleGridLineColor: "rgba(0,0,0,.05)",
+              scaleGridLineWidth: 1,
+              scaleShowHorizontalLines: true,
+              scaleShowVerticalLines: true,
+              bezierCurve: true,
+              bezierCurveTension: 0.3,
+              pointDot: false,
+              pointDotRadius: 4,
+              pointDotStrokeWidth: 1,
+              pointHitDetectionRadius: 20,
+              datasetStroke: true,
+              datasetStrokeWidth: 2,
+              datasetFill: true,
+              responsive: true,
+              maintainAspectRatio: true,
+            };
+            userGrowthChart.Line(userGrowthData, userGrowthOptions);
+          }
+
+          // Traffic Sources Pie Chart (Analyst page)
+          if ($("#traffic-pie-chart").length) {
+            var trafficPieCanvas = $("#traffic-pie-chart")
+              .get(0)
+              .getContext("2d");
+            var trafficPieChart = new Chart(trafficPieCanvas);
+            var trafficPieData = [
+              {
+                value: 700,
+                color: "#f56954",
+                highlight: "#f56954",
+                label: "Direct",
+              },
+              {
+                value: 500,
+                color: "#00a65a",
+                highlight: "#00a65a",
+                label: "Search",
+              },
+              {
+                value: 400,
+                color: "#f39c12",
+                highlight: "#f39c12",
+                label: "Social",
+              },
+              {
+                value: 300,
+                color: "#00c0ef",
+                highlight: "#00c0ef",
+                label: "Referral",
+              },
+              {
+                value: 200,
+                color: "#3c8dbc",
+                highlight: "#3c8dbc",
+                label: "Email",
+              },
+            ];
+            var trafficPieOptions = {
+              segmentShowStroke: true,
+              segmentStrokeColor: "#fff",
+              segmentStrokeWidth: 2,
+              percentageInnerCutout: 50,
+              animationSteps: 100,
+              animationEasing: "easeOutBounce",
+              animateRotate: true,
+              animateScale: false,
+              responsive: true,
+              maintainAspectRatio: true,
+            };
+            trafficPieChart.Doughnut(trafficPieData, trafficPieOptions);
+          }
+        } else {
+          // Retry after a short delay if Chart.js is not loaded
+          setTimeout(initCharts, 100);
+        }
+      }
+      initCharts();
+    });
+  </script>
 </div>

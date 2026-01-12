@@ -112,13 +112,18 @@
           <div class="box-header with-border">
             <h3 class="box-title">Bar Chart</h3>
             <div class="box-tools pull-right">
-              <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-              <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              <button class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+              <button class="btn btn-box-tool" data-widget="remove">
+                <i class="fa fa-times"></i>
+              </button>
             </div>
           </div>
           <div class="box-body chart-responsive">
-            <div class="chart" id="bar-chart" style="height: 300px;"></div>
-          </div><!-- /.box-body -->
+            <canvas id="report-bar-chart" width="400" height="300"></canvas>
+          </div>
+          <!-- /.box-body -->
         </div>
       </section>
 
@@ -130,7 +135,7 @@
             </h3>
           </div>
           <div class="box-body">
-            <div id="revenue-pie-chart" style="height: 300px"></div>
+            <canvas id="revenue-pie-chart" width="400" height="300"></canvas>
           </div>
         </div>
       </section>
@@ -190,4 +195,120 @@
       </div>
     </div>
   </section>
+
+  <!-- Chart.js Scripts for Report Page -->
+  <script>
+    $(window).on("load", function () {
+      "use strict";
+      // Wait for Chart.js to be available with retry
+      function initCharts() {
+        if (typeof Chart !== "undefined") {
+          // Bar Chart (Report page)
+          if ($("#report-bar-chart").length) {
+            var reportBarCanvas = $("#report-bar-chart")
+              .get(0)
+              .getContext("2d");
+            var reportBarChart = new Chart(reportBarCanvas);
+            var reportBarData = {
+              labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+              datasets: [
+                {
+                  label: "Sales",
+                  fillColor: "rgba(60,141,188,0.9)",
+                  strokeColor: "rgba(60,141,188,0.8)",
+                  pointColor: "#3b8bba",
+                  pointStrokeColor: "rgba(60,141,188,1)",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(60,141,188,1)",
+                  data: [28, 48, 40, 19, 86, 27],
+                },
+                {
+                  label: "Revenue",
+                  fillColor: "rgba(0,166,90,0.9)",
+                  strokeColor: "rgba(0,166,90,0.8)",
+                  pointColor: "#00a65a",
+                  pointStrokeColor: "rgba(0,166,90,1)",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(0,166,90,1)",
+                  data: [65, 59, 80, 81, 56, 55],
+                },
+              ],
+            };
+            var reportBarOptions = {
+              scaleBeginAtZero: true,
+              scaleShowGridLines: true,
+              scaleGridLineColor: "rgba(0,0,0,.05)",
+              scaleGridLineWidth: 1,
+              scaleShowHorizontalLines: true,
+              scaleShowVerticalLines: true,
+              barShowStroke: true,
+              barStrokeWidth: 2,
+              barValueSpacing: 5,
+              barDatasetSpacing: 1,
+              responsive: true,
+              maintainAspectRatio: true,
+            };
+            reportBarChart.Bar(reportBarData, reportBarOptions);
+          }
+
+          // Revenue Pie Chart (Report page)
+          if ($("#revenue-pie-chart").length) {
+            var revenuePieCanvas = $("#revenue-pie-chart")
+              .get(0)
+              .getContext("2d");
+            var revenuePieChart = new Chart(revenuePieCanvas);
+            var revenuePieData = [
+              {
+                value: 700,
+                color: "#f56954",
+                highlight: "#f56954",
+                label: "Product Sales",
+              },
+              {
+                value: 500,
+                color: "#00a65a",
+                highlight: "#00a65a",
+                label: "Services",
+              },
+              {
+                value: 400,
+                color: "#f39c12",
+                highlight: "#f39c12",
+                label: "Subscriptions",
+              },
+              {
+                value: 300,
+                color: "#00c0ef",
+                highlight: "#00c0ef",
+                label: "Licenses",
+              },
+              {
+                value: 200,
+                color: "#3c8dbc",
+                highlight: "#3c8dbc",
+                label: "Other",
+              },
+            ];
+            var revenuePieOptions = {
+              segmentShowStroke: true,
+              segmentStrokeColor: "#fff",
+              segmentStrokeWidth: 2,
+              percentageInnerCutout: 50,
+              animationSteps: 100,
+              animationEasing: "easeOutBounce",
+              animateRotate: true,
+              animateScale: false,
+              responsive: true,
+              maintainAspectRatio: true,
+            };
+            revenuePieChart.Doughnut(revenuePieData, revenuePieOptions);
+          }
+        } else {
+          // Retry after a short delay if Chart.js is not loaded
+          setTimeout(initCharts, 100);
+        }
+      }
+      initCharts();
+    });
+  </script>
 </div>
