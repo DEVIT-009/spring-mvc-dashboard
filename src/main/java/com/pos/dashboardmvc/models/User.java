@@ -1,23 +1,32 @@
-package com.pos.dashboardmvc.models.dto;
+package com.pos.dashboardmvc.models;
 
 import java.util.Date;
 
-public class UserDTO {
-    private Long id;
+public class User {
+    private int id;
     private String fullName;
     private String username;
     private String email;
     private String phone;
     private String role;
     private String status;
+    private String password;
+
+    private String imagePath;
+
     private Date createdAt;
     private Date updatedAt;
 
     // Constructors
-    public UserDTO() {
+    public User(){
+
     }
 
-    public UserDTO(Long id, String fullName, String username, String email, String phone, String role, String status) {
+    public User(
+        int id, String fullName, String username,
+        String email, String phone, String role,
+        String status, String imagePath, String password
+    ) {
         this.id = id;
         this.fullName = fullName;
         this.username = username;
@@ -25,14 +34,15 @@ public class UserDTO {
         this.phone = phone;
         this.role = role;
         this.status = status;
+        this.imagePath = imagePath;
+        this.password = password;
     }
 
-    // Getters and Setters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -99,4 +109,21 @@ public class UserDTO {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
 }

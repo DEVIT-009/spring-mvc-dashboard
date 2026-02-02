@@ -1,63 +1,94 @@
 package com.pos.dashboardmvc.controllers;
+import com.pos.dashboardmvc.models.User;
+import com.pos.dashboardmvc.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.pos.dashboardmvc.models.dto.UserDTO;
-import java.util.Date;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/v1/users")
 public class UserController {
 
-    @GetMapping("/create")
-    public String createUser(Model model) {
-        model.addAttribute("pageTitle", "Create User");
-        model.addAttribute("contentTemplate", "contents/users/create :: create-user");
-        return "index";
+    private final UserService userService;
+
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
-    @GetMapping("/manage")
-    public String manageUsers(Model model) {
+    @GetMapping({"", "/"})
+    public String index(Model model) {
         model.addAttribute("pageTitle", "Manage Users");
-        model.addAttribute("contentTemplate", "contents/users/manage :: manage-user");
-        return "index";
-    }
+        model.addAttribute("users", userService.listAll());
 
-    @GetMapping("/edit/{id}")
-    public String editUser(@PathVariable("id") long id, Model model) {
-        // Create a mock user object for the template
-        UserDTO user = createMockUser(id);
-        model.addAttribute("user", user);
-        model.addAttribute("pageTitle", "Edit User");
-        model.addAttribute("contentTemplate", "contents/users/edit :: edit-user");
-        return "index";
+        return "contents/users/index";
     }
 
     @GetMapping("/{id}")
-    public String userDetail(@PathVariable long id, Model model) {
-        // Create a mock user object for the template
-        UserDTO user = createMockUser(id);
+    public String detail(@PathVariable int id, Model model) {
+        User user = userService.getUserById(id);
         model.addAttribute("user", user);
         model.addAttribute("pageTitle", "User Detail");
-        model.addAttribute("contentTemplate", "contents/users/detail :: detail-user");
-        return "index";
+
+        return "contents/users/detail";
     }
 
-    private UserDTO createMockUser(long id) {
-        UserDTO user = new UserDTO();
-        user.setId(id);
-        user.setFullName("John Doe");
-        user.setUsername("johndoe");
-        user.setEmail("john@example.com");
-        user.setPhone("+855 12 345 678");
-        user.setRole("ADMIN");
-        user.setStatus("ACTIVE");
-        // Create dates 10 days ago and 1 day ago
-        long now = System.currentTimeMillis();
-        user.setCreatedAt(new Date(now));
-        user.setUpdatedAt(new Date(now));
-        return user;
+    /*
+        *** Create Method ***
+    */
+
+    @GetMapping("/create")
+    public String formCreate(Model model) {
+        model.addAttribute("pageTitle", "Create User");
+
+        return "contents/users/create";
+    }
+
+    @PostMapping("/create")
+    public String createUser(
+        @ModelAttribute User formUser,
+        @RequestParam("image") MultipartFile image,
+        RedirectAttributes redirectAttributes
+    ) {
+        try {
+            userService.create(formUser, image);
+            redirectAttributes.addFlashAttribute("success", "User created successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to create user!");
+        }
+
+        return "redirect:/admin/v1/users";
+    }
+
+    /*
+        *** Update Method ***
+    */
+
+    @GetMapping("/update/{id}")
+    public String formUpdate(@PathVariable int id, Model model) {
+        User user = userService.getUserById(id);
+
+        model.addAttribute("user", user);
+        model.addAttribute("pageTitle", "Edit User");
+
+        return "contents/users/update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateUser(
+            @PathVariable int id,
+            @ModelAttribute User formUser,
+            @RequestParam("image") MultipartFile image,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            userService.update(id, formUser, image);
+            redirectAttributes.addFlashAttribute("success", "User updated successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to update user!");
+        }
+
+        return "redirect:/admin/v1/users";
     }
 }

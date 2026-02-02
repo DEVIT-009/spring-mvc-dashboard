@@ -1,4 +1,9 @@
-<div th:fragment="edit-user">
+<div
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{index}"
+        layout:fragment="content"
+>
   <!-- Content Header -->
   <section class="content-header">
     <h1>
@@ -24,8 +29,9 @@
           </div>
 
           <form
-            th:action="@{/admin/v1/users/edit/{id}(id=${user.id})}"
+            th:action="@{/admin/v1/users/update/{id}(id=${user.id})}"
             method="post"
+            enctype="multipart/form-data"
           >
             <div class="box-body">
               <div class="row">
@@ -38,7 +44,6 @@
                       name="fullName"
                       class="form-control"
                       th:value="${user.fullName}"
-                      required
                     />
                   </div>
                 </div>
@@ -52,7 +57,6 @@
                       name="username"
                       class="form-control"
                       th:value="${user.username}"
-                      required
                     />
                   </div>
                 </div>
@@ -66,7 +70,6 @@
                       name="email"
                       class="form-control"
                       th:value="${user.email}"
-                      required
                     />
                   </div>
                 </div>
@@ -80,32 +83,6 @@
                       name="phone"
                       class="form-control"
                       th:value="${user.phone}"
-                    />
-                  </div>
-                </div>
-
-                <!-- Password -->
-                <div class="col-md-6 col-sm-12">
-                  <div class="form-group">
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      name="password"
-                      class="form-control"
-                      placeholder="Enter new password if you want to change"
-                    />
-                  </div>
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="col-md-6 col-sm-12">
-                  <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      class="form-control"
-                      placeholder="Confirm new password"
                     />
                   </div>
                 </div>
@@ -134,26 +111,56 @@
                   </div>
                 </div>
 
-                <!-- Status -->
+<!--                Profile -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label>Status</label>
-                    <select name="status" class="form-control">
-                      <option
-                        value="ACTIVE"
-                        th:selected="${user.status == 'ACTIVE'}"
-                      >
-                        Active
-                      </option>
-                      <option
-                        value="INACTIVE"
-                        th:selected="${user.status == 'INACTIVE'}"
-                      >
-                        Inactive
-                      </option>
-                    </select>
+                    <label>Profile Image</label>
+
+                    <!-- User image -->
+                    <img
+                        th:if="${user.imagePath != null and user.imagePath != ''}"
+                        th:src="@{'/uploads/user-images/' + ${user.imagePath}}"
+                        alt="Profile"
+                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
+                    />
+
+                    <!-- Default image -->
+                    <img
+                        th:unless="${user.imagePath != null and user.imagePath != ''}"
+                        th:src="@{'/uploads/no-image.png'}"
+                        alt="Profile"
+                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
+                    />
+
+                    <!-- Upload new image -->
+                    <input
+                      type="file"
+                      name="image"
+                      class="form-control"
+                      accept="image/*"
+                    />
                   </div>
                 </div>
+
+                <!-- Status -->
+                <div class="col-md-6 col-sm-12">
+                  <label class="form-label">Status</label>
+
+                  <div class="d-flex gap-3">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="radio" name="status" id="statusActive" value="ACTIVE"
+                             th:checked="${user.getStatus() == 'ACTIVE'}">
+                      <label class="form-check-label" for="statusActive">Active</label>
+                    </div>
+
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="radio" name="status" id="statusInactive" value="INACTIVE"
+                             th:checked="${user.getStatus() == 'INACTIVE'}">
+                      <label class="form-check-label" for="statusInactive">Inactive</label>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
 
@@ -161,11 +168,12 @@
               <button type="submit" class="btn btn-primary">
                 <i class="fa fa-save"></i> Update User
               </button>
-              <a
+              <button
                 th:href="@{/admin/v1/users/manage}"
                 class="btn btn-default pull-right"
-                >Cancel</a
-              >
+                type="reset"
+                >Reset
+              </button>
             </div>
           </form>
         </div>

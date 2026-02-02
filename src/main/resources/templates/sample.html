@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample - Testing Page</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        color: crimson;
+        font-size: 1.3rem;
+        font-family: "Khmer OS Battambang";
+    }
+    body {
+        background-color: black;
+    }
+    table {
+        width: fit-content;
+        margin: 0 auto;
+        text-align: center;
+    }
+    table tr td {
+        border: 1px solid crimson;
+        padding: 2px;
+    }
+</style>
+<body style="width: 100vw;">
+
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Status</td>
+    </tr>
+    <tr th:each="sample : ${samples}">
+        <td th:text="${sample.getId()}"></td>
+        <td th:text="${sample.getSampleName()}"></td>
+        <td th:text="${sample.getSampleStatus()}"></td>
+    </tr>
+</table>
+
+<div th:object="${sample}">
+    <pre th:text="*{id}"></pre>
+    <pre th:text="*{sampleName}"></pre>
+    <pre th:text="*{sampleStatus}"></pre>
+</div>
+
+<a th:href="@{/sample(lang='en_US')}">🇺🇸 English</a>
+<a th:href="@{/sample(lang='km_KH')}">🇰🇭 Khmer</a>
+
+<p th:text="#{welcome}"></p>
+
+<a th:href="@{/admin/v1/dashboard}">Dashboard</a>
+<a th:href="@{/admin/v1/users/{id}(id=5)}">View User</a>
+
+</body>
+</html>

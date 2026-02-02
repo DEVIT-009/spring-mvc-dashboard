@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Layout</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Monospace;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-template-rows: 1fr 2fr 1fr;
+        }
+        header, aside, section, footer {
+            background-color: darkblue;
+            color: white;
+            padding: 1.5rem;
+            font-size: 1.7rem;
+            overflow: hidden;
+        }
+
+        header {
+            grid-column: span 2;
+        }
+        aside {
+            opacity: 90%;
+        }
+        .content {
+            opacity: 80%;
+        }
+        footer {
+            grid-column: span 2;
+            opacity: 70%;
+        }
+        .desc {
+            height: 100%;
+            margin: 1rem;
+            padding: 1.5rem 1rem;
+            border-radius: 0.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(0, 0, 0, 0.2);
+            font-size: 1.3rem;
+        }
+        li {
+            list-style: none;
+            padding: 1rem 0.5rem 0 0.5rem;
+            font-size: 1.3rem;
+        }
+        a:hover{
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <header th:replace="~{sample_header :: header}"></header>
+
+        <aside th:replace="~{sample_aside :: aside}"></aside>
+
+        <section class="content" layout:fragment="content"></section>
+
+        <footer th:replace="~{sample_footer :: footer}"></footer>
+
+    </div>
+
+</body>
+</html>

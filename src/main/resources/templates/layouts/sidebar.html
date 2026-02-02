@@ -41,33 +41,33 @@
     <ul class="sidebar-menu">
       <li class="header">MAIN NAVIGATION</li>
       <li class="active treeview">
-        <a href="#">
-          <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-          <i class="fa fa-angle-left pull-right"></i>
+        <a th:href="@{/admin/v1/dashboard}">
+          <i class="fa-solid fa-grip"></i> <span>Dashboard</span>
         </a>
-        <ul class="treeview-menu">
-          <li>
-            <a th:href="@{/admin/v1/dashboard}"><i class="fa fa-circle-o"></i>Overview</a>
-          </li>
-          <li>
-            <a th:href="@{/admin/v1/analyst}"><i class="fa fa-circle-o"></i>Analyst</a>
-          </li>
-          <li>
-            <a th:href="@{/admin/v1/report}"><i class="fa fa-circle-o"></i>Report</a>
-          </li>
-        </ul>
+      </li>
+      <li class="active treeview">
+        <a th:href="@{/admin/v1/analyst}">
+          <i class="fa-solid fa-chart-area"></i>
+          <span>Analyst</span>
+        </a>
       </li>
       <li class="active treeview">
         <a href="#">
-          <i class="fa fa-dashboard"></i> <span>User</span>
+          <i class="fa-solid fa-users"></i> <span>Users</span>
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li>
-            <a th:href="@{/admin/v1/users/manage}"><i class="fa fa-circle-o"></i>Manage User</a>
+            <a th:href="@{/admin/v1/users}">
+              <i class="fa-solid fa-bars-progress"></i>
+              Manage User
+            </a>
           </li>
           <li>
-            <a th:href="@{/admin/v1/users/create}"><i class="fa fa-circle-o"></i>Create User</a>
+            <a th:href="@{/admin/v1/users/create}">
+              <i class="fa-solid fa-circle-plus"></i>
+              Create User
+            </a>
           </li>
         </ul>
       </li>

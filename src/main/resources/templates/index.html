@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
 <head>
   <meta charset="utf-8" />
   <title th:text="${pageTitle}">Admin</title>
@@ -13,7 +17,7 @@
   <th:block th:replace="layouts/sidebar :: sidebar"></th:block>
 
   <main class="content-wrapper">
-    <th:block th:replace="~{__${contentTemplate}__}"></th:block>
+    <th:block layout:fragment="content"></th:block>
   </main>
 
   <th:block th:replace="layouts/footer :: footer"></th:block>
