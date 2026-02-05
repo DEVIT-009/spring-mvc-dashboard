@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +18,15 @@ public class UserService {
     private final FileStorageService fileStorageService;
     private int idCounter = 1;
     private RedirectAttributes redirectAttributes;
+
+
+    // Suppose you have a Date object
+    private final Date now = new Date();
+
+    // Convert to LocalDateTime
+    private final LocalDateTime localNow = now.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDateTime();
 
     private boolean isNotEmpty(String value) {
         return value != null && !value.trim().isEmpty();
@@ -39,11 +50,11 @@ public class UserService {
     public void create(User formUser, MultipartFile image) {
 
         formUser.setId(idCounter++);
-        formUser.setCreatedAt(new Date());
-        formUser.setUpdatedAt(new Date());
+        formUser.setCreatedAt(localNow);
+        formUser.setUpdatedAt(localNow);
 
         if (image != null && !image.isEmpty()) {
-            String imagePath = fileStorageService.storeImage(image);
+            String imagePath = fileStorageService.storeImage(image, "users/");
             formUser.setImagePath(imagePath);
         } else {
             formUser.setImagePath("");
@@ -78,10 +89,10 @@ public class UserService {
         if (isNotEmpty(formUser.getStatus()))
             user.setStatus(formUser.getStatus());
 
-        user.setUpdatedAt(new Date());
+        user.setUpdatedAt(localNow);
 
         if (image != null && !image.isEmpty()) {
-            String imagePath = fileStorageService.storeImage(image);
+            String imagePath = fileStorageService.storeImage(image, "users/");
             user.setImagePath(imagePath);
         }
     }

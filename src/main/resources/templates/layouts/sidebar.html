@@ -40,17 +40,19 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
       <li class="header">MAIN NAVIGATION</li>
-      <li class="active treeview">
+      <li class="treeview">
         <a th:href="@{/admin/v1/dashboard}">
           <i class="fa-solid fa-grip"></i> <span>Dashboard</span>
         </a>
       </li>
-      <li class="active treeview">
+      <li class="treeview">
         <a th:href="@{/admin/v1/analyst}">
           <i class="fa-solid fa-chart-area"></i>
           <span>Analyst</span>
         </a>
       </li>
+
+<!--      User -->
       <li class="active treeview">
         <a href="#">
           <i class="fa-solid fa-users"></i> <span>Users</span>
@@ -71,6 +73,70 @@
           </li>
         </ul>
       </li>
+<!--      Student -->
+      <li class="active treeview">
+        <a href="#">
+          <i class="fa-solid fa-users"></i> <span>Students</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a th:href="@{/admin/v1/students}">
+              <i class="fa-solid fa-bars-progress"></i>
+              Manage Student
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/admin/v1/students/create}">
+              <i class="fa-solid fa-circle-plus"></i>
+              Create Student
+            </a>
+          </li>
+        </ul>
+      </li>
+<!--      Teacher-->
+      <li class="active treeview">
+        <a href="#">
+          <i class="fa-solid fa-users"></i> <span>Teachers</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a th:href="@{/admin/v1/teachers}">
+              <i class="fa-solid fa-bars-progress"></i>
+              Manage Teachers
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/admin/v1/teachers/create}">
+              <i class="fa-solid fa-circle-plus"></i>
+              Create Teachers
+            </a>
+          </li>
+        </ul>
+      </li>
+<!--      Subject-->
+      <li class="active treeview">
+        <a href="#">
+          <i class="fa-solid fa-users"></i> <span>Subjects</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a th:href="@{/admin/v1/subjects}">
+              <i class="fa-solid fa-bars-progress"></i>
+              Manage Subjects
+            </a>
+          </li>
+          <li>
+            <a th:href="@{/admin/v1/subjects/create}">
+              <i class="fa-solid fa-circle-plus"></i>
+              Create Subjects
+            </a>
+          </li>
+        </ul>
+      </li>
+
     </ul>
   </section>
   <!-- /.sidebar -->

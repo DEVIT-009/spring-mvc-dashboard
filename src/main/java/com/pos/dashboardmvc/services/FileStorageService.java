@@ -13,10 +13,11 @@ import java.util.UUID;
 public class FileStorageService {
 
     @Value("${app.upload.dir}")
-    private String uploadDir;
+    private String baseDir;
 
-    public String storeImage(MultipartFile file) {
+    public String storeImage(MultipartFile file, String subDir) {
         try {
+            String uploadDir = baseDir + "/" + subDir;
             Files.createDirectories(Paths.get(uploadDir)); // Create if not exist
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename(); // ensure not to duplicate of file name
             Path filePath = Paths.get(uploadDir + fileName); // uploads/12345_example.png

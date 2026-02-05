@@ -7,14 +7,15 @@
   <!-- Content Header -->
   <section class="content-header">
     <h1>
-      Create User
-      <small>Add new system user</small>
+      Edit User
+      <small>Update existing system user</small>
     </h1>
     <ol class="breadcrumb">
       <li>
         <a href="#"><i class="fa fa-dashboard"></i> Home</a>
       </li>
-      <li class="active">Create User</li>
+      <li><a th:href="@{/admin/v1/users/manage}">Manage Users</a></li>
+      <li class="active">Edit User</li>
     </ol>
   </section>
 
@@ -24,10 +25,14 @@
       <div class="col-md-12">
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">User Information</h3>
+            <h3 class="box-title">Edit User Information</h3>
           </div>
 
-          <form th:action="@{/admin/v1/users/create}" method="post" enctype="multipart/form-data">
+          <form
+            th:action="@{/admin/v1/users/update/{id}(id=${user.id})}"
+            method="post"
+            enctype="multipart/form-data"
+          >
             <div class="box-body">
               <div class="row">
                 <!-- Full Name -->
@@ -38,8 +43,7 @@
                       type="text"
                       name="fullName"
                       class="form-control"
-                      placeholder="Enter full name"
-                      required
+                      th:value="${user.fullName}"
                     />
                   </div>
                 </div>
@@ -52,8 +56,7 @@
                       type="text"
                       name="username"
                       class="form-control"
-                      placeholder="Enter username"
-                      required
+                      th:value="${user.username}"
                     />
                   </div>
                 </div>
@@ -66,8 +69,7 @@
                       type="email"
                       name="email"
                       class="form-control"
-                      placeholder="Enter email"
-                      required
+                      th:value="${user.email}"
                     />
                   </div>
                 </div>
@@ -80,35 +82,7 @@
                       type="text"
                       name="phone"
                       class="form-control"
-                      placeholder="Enter phone number"
-                    />
-                  </div>
-                </div>
-
-                <!-- Password -->
-                <div class="col-md-6 col-sm-12">
-                  <div class="form-group">
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      name="password"
-                      class="form-control"
-                      placeholder="Enter password"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="col-md-6 col-sm-12">
-                  <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      class="form-control"
-                      placeholder="Confirm password"
-                      required
+                      th:value="${user.phone}"
                     />
                   </div>
                 </div>
@@ -118,17 +92,47 @@
                   <div class="form-group">
                     <label>Role</label>
                     <select name="role" class="form-control">
-                      <option value="ADMIN">Admin</option>
-                      <option value="STAFF">Staff</option>
-                      <option value="USER">User</option>
+                      <option
+                        value="ADMIN"
+                        th:selected="${user.role == 'ADMIN'}"
+                      >
+                        Admin
+                      </option>
+                      <option
+                        value="STAFF"
+                        th:selected="${user.role == 'STAFF'}"
+                      >
+                        Staff
+                      </option>
+                      <option value="USER" th:selected="${user.role == 'USER'}">
+                        User
+                      </option>
                     </select>
                   </div>
                 </div>
 
-                <!-- Profile -->
+<!--                Profile -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
                     <label>Profile Image</label>
+
+                    <!-- User image -->
+                    <img
+                        th:if="${user.imagePath != null and user.imagePath != ''}"
+                        th:src="@{'/uploads/user-images/' + ${user.imagePath}}"
+                        alt="Profile"
+                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
+                    />
+
+                    <!-- Default image -->
+                    <img
+                        th:unless="${user.imagePath != null and user.imagePath != ''}"
+                        th:src="@{'/uploads/no-image.png'}"
+                        alt="Profile"
+                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
+                    />
+
+                    <!-- Upload new image -->
                     <input
                       type="file"
                       name="image"
@@ -144,23 +148,14 @@
 
                   <div class="d-flex gap-3">
                     <div class="form-check form-switch">
-                      <input class="form-check-input"
-                             type="radio"
-                             name="status"
-                             id="statusActive"
-                             value="ACTIVE"
-                             checked
-                             >
+                      <input class="form-check-input" type="radio" name="status" id="statusActive" value="ACTIVE"
+                             th:checked="${user.getStatus() == 'ACTIVE'}">
                       <label class="form-check-label" for="statusActive">Active</label>
                     </div>
 
                     <div class="form-check form-switch">
-                      <input class="form-check-input"
-                             type="radio"
-                             name="status"
-                             id="statusInactive"
-                             value="INACTIVE"
-                             >
+                      <input class="form-check-input" type="radio" name="status" id="statusInactive" value="INACTIVE"
+                             th:checked="${user.getStatus() == 'INACTIVE'}">
                       <label class="form-check-label" for="statusInactive">Inactive</label>
                     </div>
                   </div>
@@ -171,10 +166,13 @@
 
             <div class="box-footer">
               <button type="submit" class="btn btn-primary">
-                <i class="fa fa-save"></i> Create User
+                <i class="fa fa-save"></i> Update User
               </button>
-              <button type="reset" class="btn btn-secondary">
-                Cancel
+              <button
+                th:href="@{/admin/v1/users/manage}"
+                class="btn btn-default pull-right"
+                type="reset"
+                >Reset
               </button>
             </div>
           </form>

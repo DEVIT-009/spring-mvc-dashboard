@@ -1,0 +1,64 @@
+<div
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{index}"
+        layout:fragment="content"
+>
+  <!-- Content Header -->
+  <section class="content-header">
+    <h1>
+      Create Subject
+      <small>Add new system user</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#"><i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">Create Subject</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">Subject Information</h3>
+          </div>
+
+          <form th:action="@{/admin/v1/subjects/create}"
+                method="post"
+                th:object="${subject}">
+
+            <div class="box-body">
+              <div class="row">
+
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Subject Name</label>
+                    <input class="form-control"
+                           placeholder="Enter Subject Name"
+                           th:field="*{subjectName}">
+                    <small class="text-danger"
+                           th:errors="*{subjectName}"></small>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa fa-save"></i> Create Subject
+              </button>
+              <button type="reset" class="btn btn-secondary">Cancel</button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

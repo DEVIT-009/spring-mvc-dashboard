@@ -56,6 +56,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("success", "User created successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to create user!");
+            throw new RuntimeException(e);
         }
 
         return "redirect:/admin/v1/users";

@@ -6,11 +6,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Configuration
 public class DataInitializer {
 
+    // Suppose you have a Date object
+    private final Date now = new Date();
+
+    // Convert to LocalDateTime
+    private final LocalDateTime localNow = now.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDateTime();
     @Bean
     CommandLineRunner seedUsers(UserService userService) {
         return args -> {
@@ -25,7 +34,7 @@ public class DataInitializer {
                 admin.setRole("ADMIN");
                 admin.setStatus("ACTIVE");
                 admin.setImagePath("");
-                admin.setCreatedAt(new Date());
+                admin.setCreatedAt(localNow);
 
                 User staff = new User();
                 staff.setFullName("Staff User");
@@ -35,7 +44,7 @@ public class DataInitializer {
                 staff.setRole("STAFF");
                 staff.setStatus("INACTIVE");
                 staff.setImagePath("");
-                staff.setCreatedAt(new Date());
+                staff.setCreatedAt(localNow);
 
                 userService.create(admin, null);
                 userService.create(staff, null);
