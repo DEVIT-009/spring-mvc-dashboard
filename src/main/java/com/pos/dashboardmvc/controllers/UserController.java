@@ -90,6 +90,26 @@ public class UserController {
             redirectAttributes.addFlashAttribute("error", "Failed to update user!");
         }
 
+        return "redirect:/admin/v1/users/update/" + id;
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteUser(
+            @PathVariable int id,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            userService.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    "success",
+                    "User deleted successfully!"
+            );
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    "User not found!"
+            );
+        }
         return "redirect:/admin/v1/users";
     }
 }

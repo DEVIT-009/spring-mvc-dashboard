@@ -56,4 +56,51 @@ public class StudentController {
 
         return "redirect:/admin/v1/students";
     }
+
+    @GetMapping("/update/{id}")
+    public String formUpdate(@PathVariable int id, Model model) {
+        Student student = studentService.getStudentById(id);
+
+        model.addAttribute("student", student);
+        model.addAttribute("pageTitle", "Edit Student");
+
+        return "contents/students/update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateStudent(
+            @PathVariable int id,
+            @ModelAttribute Student formStudent,
+            @RequestParam("image") MultipartFile image,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            studentService.update(id, formStudent, image);
+            redirectAttributes.addFlashAttribute("success", "Student updated successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to update student!");
+        }
+
+        return "redirect:/admin/v1/students/update/" + id;
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteStudent(
+            @PathVariable int id,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            studentService.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    "success",
+                    "Student deleted successfully!"
+            );
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    "Student not found!"
+            );
+        }
+        return "redirect:/admin/v1/students";
+    }
 }

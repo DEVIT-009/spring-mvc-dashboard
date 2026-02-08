@@ -37,7 +37,7 @@ public class TeacherController {
     }
 
     @PostMapping("/create")
-    public String createUser(
+    public String createTeacher(
         @Valid @ModelAttribute("teacher") Teacher formTeacher,
         BindingResult result,
         @RequestParam("image") MultipartFile image,
@@ -54,6 +54,53 @@ public class TeacherController {
             throw new RuntimeException(e);
         }
 
+        return "redirect:/admin/v1/teachers";
+    }
+
+    @GetMapping("/update/{id}")
+    public String formUpdate(@PathVariable int id, Model model) {
+        Teacher teacher = teacherService.getTeacherById(id);
+
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("pageTitle", "Edit Teacher");
+
+        return "contents/teachers/update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateTeacher(
+            @PathVariable int id,
+            @ModelAttribute Teacher formTeacher,
+            @RequestParam("image") MultipartFile image,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            teacherService.update(id, formTeacher, image);
+            redirectAttributes.addFlashAttribute("success", "Teacher updated successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to update teacher!");
+        }
+
+        return "redirect:/admin/v1/teachers/update/" + id;
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteTeacher(
+            @PathVariable int id,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            teacherService.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    "success",
+                    "Teacher deleted successfully!"
+            );
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    "Teacher not found!"
+            );
+        }
         return "redirect:/admin/v1/teachers";
     }
 }

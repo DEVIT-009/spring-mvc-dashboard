@@ -7,15 +7,15 @@
   <!-- Content Header -->
   <section class="content-header">
     <h1>
-      Edit User
-      <small>Update existing system user</small>
+      Edit Teacher
+      <small>Update existing teacher information</small>
     </h1>
     <ol class="breadcrumb">
       <li>
         <a href="#"><i class="fa fa-dashboard"></i> Home</a>
       </li>
-      <li><a th:href="@{/admin/v1/users/manage}">Manage Users</a></li>
-      <li class="active">Edit User</li>
+      <li><a th:href="@{/admin/v1/teachers/manage}">Manage Teachers</a></li>
+      <li class="active">Edit Teacher</li>
     </ol>
   </section>
 
@@ -25,51 +25,40 @@
       <div class="col-md-12">
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">Edit User Information</h3>
+            <h3 class="box-title">Edit Teacher Information</h3>
           </div>
 
           <form
-            th:action="@{/admin/v1/users/update/{id}(id=${user.id})}"
-            method="post"
-            enctype="multipart/form-data"
+                  th:action="@{/admin/v1/teachers/update/{id}(id=${teacher.id})}"
+                  method="post"
+                  enctype="multipart/form-data"
           >
             <div class="box-body">
               <div class="row">
-                <!-- Full Name -->
+                <!-- First Name -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label>Full Name</label>
+                    <label>First Name</label>
                     <input
-                      type="text"
-                      name="fullName"
-                      class="form-control"
-                      th:value="${user.fullName}"
+                            type="text"
+                            name="firstName"
+                            class="form-control"
+                            th:value="${teacher.firstName}"
+                            required
                     />
                   </div>
                 </div>
 
-                <!-- Username -->
+                <!-- Last Name -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label>Username</label>
+                    <label>Last Name</label>
                     <input
-                      type="text"
-                      name="username"
-                      class="form-control"
-                      th:value="${user.username}"
-                    />
-                  </div>
-                </div>
-
-                <!-- Email -->
-                <div class="col-md-6 col-sm-12">
-                  <div class="form-group">
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      class="form-control"
-                      th:value="${user.email}"
+                            type="text"
+                            name="lastName"
+                            class="form-control"
+                            th:value="${teacher.lastName}"
+                            required
                     />
                   </div>
                 </div>
@@ -77,104 +66,135 @@
                 <!-- Phone -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label>Phone Number</label>
+                    <label>Phone</label>
                     <input
-                      type="text"
-                      name="phone"
-                      class="form-control"
-                      th:value="${user.phone}"
+                            type="text"
+                            name="phone"
+                            class="form-control"
+                            th:value="${teacher.phone}"
+                            required
+                            pattern="\d{9,10}"
                     />
                   </div>
                 </div>
 
-                <!-- Role -->
+                <!-- Salary -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label>Role</label>
-                    <select name="role" class="form-control">
-                      <option
-                        value="ADMIN"
-                        th:selected="${user.role == 'ADMIN'}"
-                      >
-                        Admin
-                      </option>
-                      <option
-                        value="STAFF"
-                        th:selected="${user.role == 'STAFF'}"
-                      >
-                        Staff
-                      </option>
-                      <option value="USER" th:selected="${user.role == 'USER'}">
-                        User
-                      </option>
+                    <label>Salary</label>
+                    <input
+                            type="number"
+                            name="salary"
+                            class="form-control"
+                            th:value="${teacher.salary}"
+                            required
+                            min="0.01"
+                            step="0.01"
+                    />
+                  </div>
+                </div>
+
+                <!-- Gender -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Gender</label>
+                    <select name="gender" class="form-control" required>
+                      <option value="MALE" th:selected="${teacher.gender == T(com.pos.dashboardmvc.enums.Gender).MALE}">Male</option>
+                      <option value="FEMALE" th:selected="${teacher.gender == T(com.pos.dashboardmvc.enums.Gender).FEMALE}">Female</option>
+                      <option value="OTHER" th:selected="${teacher.gender == T(com.pos.dashboardmvc.enums.Gender).OTHER}">Other</option>
                     </select>
                   </div>
                 </div>
 
-<!--                Profile -->
+                <!-- Date of Birth -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label>Profile Image</label>
-
-                    <!-- User image -->
-                    <img
-                        th:if="${user.imagePath != null and user.imagePath != ''}"
-                        th:src="@{'/uploads/user-images/' + ${user.imagePath}}"
-                        alt="Profile"
-                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
-                    />
-
-                    <!-- Default image -->
-                    <img
-                        th:unless="${user.imagePath != null and user.imagePath != ''}"
-                        th:src="@{'/uploads/no-image.png'}"
-                        alt="Profile"
-                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
-                    />
-
-                    <!-- Upload new image -->
+                    <label>Date of Birth</label>
                     <input
-                      type="file"
-                      name="image"
-                      class="form-control"
-                      accept="image/*"
+                            type="date"
+                            name="dob"
+                            class="form-control"
+                            th:value="${teacher.dob}"
+                            required
                     />
                   </div>
                 </div>
 
-                <!-- Status -->
+                <!-- Address -->
                 <div class="col-md-6 col-sm-12">
-                  <label class="form-label">Status</label>
+                  <div class="form-group">
+                    <label>Address</label>
+                    <input
+                            type="text"
+                            name="address"
+                            class="form-control"
+                            th:value="${teacher.address}"
+                            required
+                    />
+                  </div>
+                </div>
 
-                  <div class="d-flex gap-3">
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="radio" name="status" id="statusActive" value="ACTIVE"
-                             th:checked="${user.getStatus() == 'ACTIVE'}">
-                      <label class="form-check-label" for="statusActive">Active</label>
-                    </div>
+                <!-- Subject Name -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Subject Name</label>
+                    <input
+                            type="text"
+                            name="subjectName"
+                            class="form-control"
+                            th:value="${teacher.subjectName}"
+                            required
+                    />
+                  </div>
+                </div>
 
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="radio" name="status" id="statusInactive" value="INACTIVE"
-                             th:checked="${user.getStatus() == 'INACTIVE'}">
-                      <label class="form-check-label" for="statusInactive">Inactive</label>
-                    </div>
+                <!-- Profile Image -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Profile Image</label>
+
+                    <img
+                            th:if="${teacher.imagePath != null and teacher.imagePath != ''}"
+                            th:src="@{'/uploads/teachers/' + ${teacher.imagePath}}"
+                            alt="Profile"
+                            style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
+                    />
+
+                    <img
+                            th:unless="${teacher.imagePath != null and teacher.imagePath != ''}"
+                            th:src="@{'/uploads/no-image.png'}"
+                            alt="Profile"
+                            style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
+                    />
+
+                    <input
+                            type="file"
+                            name="image"
+                            class="form-control"
+                            accept="image/*"
+                    />
                   </div>
                 </div>
 
               </div>
             </div>
 
+            <!-- Footer -->
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary">
-                <i class="fa fa-save"></i> Update User
-              </button>
+              <a th:href="@{/admin/v1/teachers}" class="btn btn-default">
+                <i class="fa-solid fa-angle-left"></i>
+                Back
+              </a>
               <button
-                th:href="@{/admin/v1/users/manage}"
-                class="btn btn-default pull-right"
-                type="reset"
-                >Reset
+                  class="btn btn-warning"
+                  type="reset"
+              >Reset
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa fa-save"></i> Update Teacher
               </button>
             </div>
+
           </form>
         </div>
       </div>

@@ -9,9 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Student extends Person {
-
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email")
     private String email;
-
 }

@@ -36,7 +36,7 @@ public class SubjectController {
     }
 
     @PostMapping("/create")
-    public String createUser(
+    public String createSubject(
             @Valid @ModelAttribute("subject") Subject subjectForm,
             BindingResult result,
             RedirectAttributes redirectAttributes
@@ -57,6 +57,52 @@ public class SubjectController {
                     "Failed Create successfully!"
             );
             throw new RuntimeException(e);
+        }
+        return "redirect:/admin/v1/subjects";
+    }
+
+    @GetMapping("/update/{id}")
+    public String formUpdate(@PathVariable int id, Model model) {
+        Subject subject = subjectService.getSubjectById(id);
+
+        model.addAttribute("subject", subject);
+        model.addAttribute("pageTitle", "Edit Subject");
+
+        return "contents/subjects/update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateSubject(
+            @PathVariable int id,
+            @ModelAttribute Subject formSubject,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            subjectService.update(id, formSubject);
+            redirectAttributes.addFlashAttribute("success", "Subject updated successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to update subject!");
+        }
+
+        return "redirect:/admin/v1/subjects/update/" + id;
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteSubject(
+            @PathVariable int id,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            subjectService.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    "success",
+                    "Subject deleted successfully!"
+            );
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    "Subject not found!"
+            );
         }
         return "redirect:/admin/v1/subjects";
     }

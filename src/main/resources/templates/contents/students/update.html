@@ -7,15 +7,15 @@
   <!-- Content Header -->
   <section class="content-header">
     <h1>
-      Edit User
-      <small>Update existing system user</small>
+      Edit Student
+      <small>Update existing student information</small>
     </h1>
     <ol class="breadcrumb">
       <li>
         <a href="#"><i class="fa fa-dashboard"></i> Home</a>
       </li>
-      <li><a th:href="@{/admin/v1/users/manage}">Manage Users</a></li>
-      <li class="active">Edit User</li>
+      <li><a th:href="@{/admin/v1/students/manage}">Manage Students</a></li>
+      <li class="active">Edit Student</li>
     </ol>
   </section>
 
@@ -25,38 +25,40 @@
       <div class="col-md-12">
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">Edit User Information</h3>
+            <h3 class="box-title">Edit Student Information</h3>
           </div>
 
           <form
-            th:action="@{/admin/v1/users/update/{id}(id=${user.id})}"
-            method="post"
-            enctype="multipart/form-data"
+                  th:action="@{/admin/v1/students/update/{id}(id=${student.id})}"
+                  method="post"
+                  enctype="multipart/form-data"
           >
             <div class="box-body">
               <div class="row">
-                <!-- Full Name -->
+                <!-- First Name -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label>Full Name</label>
+                    <label>First Name</label>
                     <input
-                      type="text"
-                      name="fullName"
-                      class="form-control"
-                      th:value="${user.fullName}"
+                            type="text"
+                            name="firstName"
+                            class="form-control"
+                            th:value="${student.firstName}"
+                            required
                     />
                   </div>
                 </div>
 
-                <!-- Username -->
+                <!-- Last Name -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label>Username</label>
+                    <label>Last Name</label>
                     <input
-                      type="text"
-                      name="username"
-                      class="form-control"
-                      th:value="${user.username}"
+                            type="text"
+                            name="lastName"
+                            class="form-control"
+                            th:value="${student.lastName}"
+                            required
                     />
                   </div>
                 </div>
@@ -66,67 +68,85 @@
                   <div class="form-group">
                     <label>Email</label>
                     <input
-                      type="email"
-                      name="email"
-                      class="form-control"
-                      th:value="${user.email}"
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            th:value="${student.email}"
+                            required
                     />
                   </div>
                 </div>
 
-                <!-- Phone -->
+                <!-- Gender -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label>Phone Number</label>
-                    <input
-                      type="text"
-                      name="phone"
-                      class="form-control"
-                      th:value="${user.phone}"
-                    />
-                  </div>
-                </div>
-
-                <!-- Role -->
-                <div class="col-md-6 col-sm-12">
-                  <div class="form-group">
-                    <label>Role</label>
-                    <select name="role" class="form-control">
-                      <option
-                        value="ADMIN"
-                        th:selected="${user.role == 'ADMIN'}"
-                      >
-                        Admin
-                      </option>
-                      <option
-                        value="STAFF"
-                        th:selected="${user.role == 'STAFF'}"
-                      >
-                        Staff
-                      </option>
-                      <option value="USER" th:selected="${user.role == 'USER'}">
-                        User
-                      </option>
+                    <label>Gender</label>
+                    <select name="gender" class="form-control" required>
+                      <option value="MALE" th:selected="${student.gender == T(com.pos.dashboardmvc.enums.Gender).MALE}">Male</option>
+                      <option value="FEMALE" th:selected="${student.gender == T(com.pos.dashboardmvc.enums.Gender).FEMALE}">Female</option>
+                      <option value="OTHER" th:selected="${student.gender == T(com.pos.dashboardmvc.enums.Gender).OTHER}">Other</option>
                     </select>
                   </div>
                 </div>
 
-<!--                Profile -->
+                <!-- Date of Birth -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input
+                            type="date"
+                            name="dob"
+                            class="form-control"
+                            th:value="${student.dob}"
+                            required
+                    />
+                  </div>
+                </div>
+
+                <!-- Address -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Address</label>
+                    <input
+                            type="text"
+                            name="address"
+                            class="form-control"
+                            th:value="${student.address}"
+                            required
+                    />
+                  </div>
+                </div>
+
+                <!-- Subject Name -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Subject Name</label>
+                    <input
+                            type="text"
+                            name="subjectName"
+                            class="form-control"
+                            th:value="${student.subjectName}"
+                            required
+                    />
+                  </div>
+                </div>
+
+                <!-- Profile Image -->
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
                     <label>Profile Image</label>
 
-                    <!-- User image -->
+                    <!-- Existing image -->
                     <img
-                        th:if="${user.imagePath != null and user.imagePath != ''}"
-                        th:src="@{'/uploads/user-images/' + ${user.imagePath}}"
+                        th:if="${student.imagePath != null and student.imagePath != ''}"
+                        th:src="@{'/uploads/students/' + ${student.imagePath}}"
                         alt="Profile"
                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
                     />
 
                     <!-- Default image -->
                     <img
-                        th:unless="${user.imagePath != null and user.imagePath != ''}"
+                        th:unless="${student.imagePath != null and student.imagePath != ''}"
                         th:src="@{'/uploads/no-image.png'}"
                         alt="Profile"
                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
@@ -134,30 +154,11 @@
 
                     <!-- Upload new image -->
                     <input
-                      type="file"
-                      name="image"
-                      class="form-control"
-                      accept="image/*"
+                            type="file"
+                            name="image"
+                            class="form-control"
+                            accept="image/*"
                     />
-                  </div>
-                </div>
-
-                <!-- Status -->
-                <div class="col-md-6 col-sm-12">
-                  <label class="form-label">Status</label>
-
-                  <div class="d-flex gap-3">
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="radio" name="status" id="statusActive" value="ACTIVE"
-                             th:checked="${user.getStatus() == 'ACTIVE'}">
-                      <label class="form-check-label" for="statusActive">Active</label>
-                    </div>
-
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="radio" name="status" id="statusInactive" value="INACTIVE"
-                             th:checked="${user.getStatus() == 'INACTIVE'}">
-                      <label class="form-check-label" for="statusInactive">Inactive</label>
-                    </div>
                   </div>
                 </div>
 
@@ -165,14 +166,17 @@
             </div>
 
             <div class="box-footer">
+              <a th:href="@{/admin/v1/students}" class="btn btn-default">
+                <i class="fa-solid fa-angle-left"></i>
+                Back
+              </a>
               <button type="submit" class="btn btn-primary">
-                <i class="fa fa-save"></i> Update User
+                <i class="fa fa-save"></i> Update Student
               </button>
               <button
-                th:href="@{/admin/v1/users/manage}"
-                class="btn btn-default pull-right"
+                class="btn btn-warning"
                 type="reset"
-                >Reset
+              >Reset
               </button>
             </div>
           </form>
