@@ -32,6 +32,7 @@
                   th:action="@{/admin/v1/students/update/{id}(id=${student.id})}"
                   method="post"
                   enctype="multipart/form-data"
+                  th:object="${student}"
           >
             <div class="box-body">
               <div class="row">
@@ -43,7 +44,7 @@
                             type="text"
                             name="firstName"
                             class="form-control"
-                            th:value="${student.firstName}"
+                            th:field="*{firstName}"
                             required
                     />
                   </div>
@@ -57,7 +58,7 @@
                             type="text"
                             name="lastName"
                             class="form-control"
-                            th:value="${student.lastName}"
+                            th:field="*{lastName}"
                             required
                     />
                   </div>
@@ -71,7 +72,7 @@
                             type="email"
                             name="email"
                             class="form-control"
-                            th:value="${student.email}"
+                            th:field="*{email}"
                             required
                     />
                   </div>
@@ -97,7 +98,7 @@
                             type="date"
                             name="dob"
                             class="form-control"
-                            th:value="${student.dob}"
+                            th:field="*{dob}"
                             required
                     />
                   </div>
@@ -111,7 +112,7 @@
                             type="text"
                             name="address"
                             class="form-control"
-                            th:value="${student.address}"
+                            th:field="*{address}"
                             required
                     />
                   </div>
@@ -125,7 +126,7 @@
                             type="text"
                             name="subjectName"
                             class="form-control"
-                            th:value="${student.subjectName}"
+                            th:field="*{subjectName}"
                             required
                     />
                   </div>

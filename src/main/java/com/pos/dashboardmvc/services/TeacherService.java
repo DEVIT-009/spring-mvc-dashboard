@@ -1,26 +1,27 @@
 package com.pos.dashboardmvc.services;
 
 import com.pos.dashboardmvc.models.Teacher;
+import com.pos.dashboardmvc.repositories.TeacherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TeacherService {
 
-    private final List<Teacher> data = new ArrayList<>();
     private final FileStorageService fileStorageService;
-    private int idCounter = 1;
+    private final TeacherRepository teacherRepository;
     private final String subFolder = "teachers/";
 
-    public TeacherService(FileStorageService fileStorageService){
+    public TeacherService(FileStorageService fileStorageService, TeacherRepository teacherRepository){
         this.fileStorageService = fileStorageService;
+        this.teacherRepository = teacherRepository;
     }
 
-    public List<Teacher> listAll(){
-        return data;
+    public List<Teacher> listAll()
+    {
+        return teacherRepository.findAll();
     }
 
     private boolean isNotEmpty(String value) {
@@ -28,21 +29,11 @@ public class TeacherService {
     }
 
     public Teacher getTeacherById(int id) {
-        Teacher filterTeacher = data.stream()
-                .filter(teacher -> teacher.getId() == id)
-                .findFirst()
-                .orElse(null);
-
-        if(filterTeacher == null) {
-            throw new RuntimeException("STUDENT_NOT_FOUND");
-        }
-
-        return filterTeacher;
+        return teacherRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("TEACHER_NOT_FOUND"));
     }
 
     public void create(Teacher formTeacher, MultipartFile image){
-        formTeacher.setId(idCounter++);
-
         if(image != null && !image.isEmpty()){
             String imagePath = fileStorageService.storeImage(image, "teachers/");
             formTeacher.setImagePath(imagePath);
@@ -50,7 +41,7 @@ public class TeacherService {
             formTeacher.setImagePath("");
         }
 
-        data.add(formTeacher);
+        teacherRepository.save(formTeacher);
     }
 
 
@@ -89,6 +80,7 @@ public class TeacherService {
             }
             teacher.setImagePath(fileStorageService.storeImage(image, subFolder));
         }
+        teacherRepository.save(teacher);
     }
 
     public void delete(int id) {
@@ -99,6 +91,6 @@ public class TeacherService {
             fileStorageService.deleteImage(imagePath, subFolder);
         }
 
-        data.remove(teacher);
+        teacherRepository.delete(teacher);
     }
 }

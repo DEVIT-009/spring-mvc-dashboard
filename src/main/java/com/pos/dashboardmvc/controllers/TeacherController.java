@@ -51,7 +51,7 @@ public class TeacherController {
             redirectAttributes.addFlashAttribute("success", "Created teacher successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed create teacher!");
-            throw new RuntimeException(e);
+            return "contents/teachers/create";
         }
 
         return "redirect:/admin/v1/teachers";
@@ -70,10 +70,14 @@ public class TeacherController {
     @PostMapping("/update/{id}")
     public String updateTeacher(
             @PathVariable int id,
-            @ModelAttribute Teacher formTeacher,
+            @Valid @ModelAttribute("teacher") Teacher formTeacher,
+            BindingResult result,
             @RequestParam("image") MultipartFile image,
             RedirectAttributes redirectAttributes
     ) {
+        if(result.hasErrors()){
+            return "redirect:/admin/v1/teachers/update/" + id;
+        }
         try {
             teacherService.update(id, formTeacher, image);
             redirectAttributes.addFlashAttribute("success", "Teacher updated successfully!");
@@ -84,7 +88,7 @@ public class TeacherController {
         return "redirect:/admin/v1/teachers/update/" + id;
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteTeacher(
             @PathVariable int id,
             RedirectAttributes redirectAttributes

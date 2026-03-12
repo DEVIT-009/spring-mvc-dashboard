@@ -1,5 +1,9 @@
 package com.pos.dashboardmvc.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -10,11 +14,11 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Entity
 @Setter
 @Getter
 @NoArgsConstructor
-public class User {
-    private int id;
+public class User extends BaseModel {
 
     @NotBlank(message = "Full name is required")
     @Size(min = 3, max = 100, message = "Full name must be between 3 and 100 characters")

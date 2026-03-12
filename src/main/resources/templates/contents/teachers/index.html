@@ -78,7 +78,7 @@
                   <td th:text="${teacher.gender}"></td>
                   <td th:text="${teacher.dob}"></td>
                   <td th:text="${teacher.address}"></td>
-                  <td th:text="${teacher.address}"></td>
+                  <td th:text="${teacher.salary}"></td>
                   <td th:text="${teacher.phone}"></td>
                   <td th:text="${teacher.subjectName}"></td>
                   <td>
@@ -94,13 +94,13 @@
                     >
                       <i class="fa fa-edit"></i>
                     </a>
-                    <a
-                      th:href="@{/admin/v1/teachers/delete/{id}(id=${teacher.id})}"
-                      class="btn btn-danger btn-sm"
-                      onclick="return confirm('Are you sure you want to delete this teacher?');"
-                    >
-                      <i class="fa fa-trash"></i>
-                    </a>
+                    <form th:action="@{/admin/v1/teachers/delete/{id}(id=${teacher.id})}" method="post" style="display:inline;">
+                      <button type="submit"
+                              class="btn btn-danger btn-sm"
+                              onclick="return confirm('Are you sure you want to delete this teacher?');">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </form>
                   </td>
                 </tr>
               </tbody>

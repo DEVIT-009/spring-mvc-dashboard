@@ -1,24 +1,22 @@
 package com.pos.dashboardmvc.services;
 
 import com.pos.dashboardmvc.models.Student;
-import com.pos.dashboardmvc.models.User;
+import com.pos.dashboardmvc.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class StudentService {
 
-    private final List<Student> data = new ArrayList<>();
-    private int idCounter = 1;
     private final String subFolder = "students/";
+    private final StudentRepository studentRepository;
 
     private final FileStorageService fileStorageService;
 
-    public StudentService(FileStorageService fileStorageService){
+    public StudentService(StudentRepository studentRepository, FileStorageService fileStorageService){
+        this.studentRepository = studentRepository;
         this.fileStorageService = fileStorageService;
     }
 
@@ -26,25 +24,18 @@ public class StudentService {
         return value != null && !value.trim().isEmpty();
     }
 
-    public List<Student> listAll() {
-        return data;
+    public List<Student> listAll()
+    {
+        return studentRepository.findAll();
     }
 
-    public Student getStudentById(int id) {
-        Student filterStudent = data.stream()
-                .filter(student -> student.getId() == id)
-                .findFirst()
-                .orElse(null);
-
-        if(filterStudent == null){
-            throw new RuntimeException("STUDENT_NOT_FOUND");
-        }
-
-        return filterStudent;
+    public Student getStudentById(int id)
+    {
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("STUDENT_NOT_FOUND"));
     }
 
     public void create(Student formStudent, MultipartFile image){
-        formStudent.setId(idCounter++);
 
         if (image != null && !image.isEmpty()) {
             String imagePath = fileStorageService.storeImage(image, subFolder);
@@ -53,7 +44,7 @@ public class StudentService {
             formStudent.setImagePath("");
         }
 
-        data.add(formStudent);
+        studentRepository.save(formStudent);
     }
 
     public void update(
@@ -88,6 +79,8 @@ public class StudentService {
             }
             student.setImagePath(fileStorageService.storeImage(image, subFolder));
         }
+
+        studentRepository.save(student);
     }
 
     public void delete(int id) {
@@ -98,6 +91,6 @@ public class StudentService {
             fileStorageService.deleteImage(imagePath, subFolder);
         }
 
-        data.remove(student);
+        studentRepository.delete(student);
     }
 }

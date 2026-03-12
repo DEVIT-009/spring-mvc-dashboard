@@ -37,7 +37,7 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public String CreateStudent(
+    public String createStudent(
             @Valid @ModelAttribute("student") Student formStudent,
             BindingResult result,
             @RequestParam("image") MultipartFile image,
@@ -49,9 +49,9 @@ public class StudentController {
         try {
             studentService.create(formStudent, image);
             redirectAttributes.addFlashAttribute("success", "Student created successfully!");
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("error", "Failed to create student!");
-            throw new RuntimeException(e);
+            return "redirect:/admin/v1/students/create";
         }
 
         return "redirect:/admin/v1/students";
@@ -67,24 +67,38 @@ public class StudentController {
         return "contents/students/update";
     }
 
+    @GetMapping("/detail/{id}")
+    public String formDetail(@PathVariable int id, Model model) {
+        Student student = studentService.getStudentById(id);
+
+        model.addAttribute("student", student);
+        model.addAttribute("pageTitle", "Detail Student");
+
+        return "contents/students/detail";
+    }
+
     @PostMapping("/update/{id}")
     public String updateStudent(
             @PathVariable int id,
-            @ModelAttribute Student formStudent,
+            @Valid @ModelAttribute("student") Student formStudent,
+            BindingResult result,
             @RequestParam("image") MultipartFile image,
             RedirectAttributes redirectAttributes
     ) {
+        if(result.hasErrors()){
+            return "redirect:/admin/v1/students/update/" + id;
+        }
         try {
             studentService.update(id, formStudent, image);
             redirectAttributes.addFlashAttribute("success", "Student updated successfully!");
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("error", "Failed to update student!");
         }
 
         return "redirect:/admin/v1/students/update/" + id;
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteStudent(
             @PathVariable int id,
             RedirectAttributes redirectAttributes

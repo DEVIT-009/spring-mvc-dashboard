@@ -1,46 +1,42 @@
 package com.pos.dashboardmvc.services;
 
 import com.pos.dashboardmvc.models.Subject;
+import com.pos.dashboardmvc.repositories.SubjectRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class SubjectService {
 
-    private final List<Subject> data = new ArrayList<>();
-    private int idCounter = 1;
+    private final SubjectRepository subjectRepository;
 
-    public List<Subject> listAll() {
-        return data;
+    public SubjectService(SubjectRepository subjectRepository) {
+        this.subjectRepository = subjectRepository;
+    }
+
+    public List<Subject> listAll()
+    {
+        return subjectRepository.findAll();
     }
 
     public Subject getSubjectById(int id) {
-        Subject filterSubject = data.stream()
-                .filter(subject -> subject.getId() == id)
-                .findFirst()
-                .orElse(null);
-
-        if(filterSubject == null){
-            throw new RuntimeException("SUBJECT_NOT_FOUND");
-        }
-
-        return filterSubject;
+        return subjectRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("SUBJECT_NOT_FOUND"));
     }
 
     public void create(Subject subjectForm) {
-        subjectForm.setId(idCounter++);
-        data.add(subjectForm);
+        subjectRepository.save(subjectForm);
     }
 
     public void update(int id, Subject formSubject) {
         Subject subject = this.getSubjectById(id);
         subject.setSubjectName(formSubject.getSubjectName());
+        subjectRepository.save(subject);
     }
 
     public void delete(int id) {
         Subject subject = this.getSubjectById(id);
-        data.remove(subject);
+        subjectRepository.delete(subject);
     }
 }

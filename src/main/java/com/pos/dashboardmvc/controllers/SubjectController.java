@@ -56,7 +56,7 @@ public class SubjectController {
                     "error",
                     "Failed Create successfully!"
             );
-            throw new RuntimeException(e);
+            return "contents/subjects/create";
         }
         return "redirect:/admin/v1/subjects";
     }
@@ -74,9 +74,13 @@ public class SubjectController {
     @PostMapping("/update/{id}")
     public String updateSubject(
             @PathVariable int id,
-            @ModelAttribute Subject formSubject,
+            @Valid @ModelAttribute("subject") Subject formSubject,
+            BindingResult result,
             RedirectAttributes redirectAttributes
     ) {
+        if(result.hasErrors()){
+            return "contents/subjects/create";
+        }
         try {
             subjectService.update(id, formSubject);
             redirectAttributes.addFlashAttribute("success", "Subject updated successfully!");
@@ -87,7 +91,7 @@ public class SubjectController {
         return "redirect:/admin/v1/subjects/update/" + id;
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteSubject(
             @PathVariable int id,
             RedirectAttributes redirectAttributes
