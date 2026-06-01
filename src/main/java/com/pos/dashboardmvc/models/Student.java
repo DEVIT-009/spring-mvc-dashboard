@@ -1,6 +1,6 @@
 package com.pos.dashboardmvc.models;
 
-import com.pos.dashboardmvc.enums.Gender;
+import com.pos.dashboardmvc.shared.enums.Gender;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.*;
 import lombok.Getter;

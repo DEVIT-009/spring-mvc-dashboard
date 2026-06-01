@@ -1,18 +1,15 @@
 package com.pos.dashboardmvc.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import com.pos.dashboardmvc.shared.enums.UserStatus;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -36,13 +33,17 @@ public class User extends BaseModel {
     @Pattern(regexp = "\\d{9,15}", message = "Phone must be 9-15 digits")
     private String phone;
 
-    @NotBlank(message = "Role is required")
-    @Pattern(regexp = "ADMIN|USER|MANAGER", message = "Role must be ADMIN, USER, or MANAGER")
-    private String role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
-    @NotBlank(message = "Status is required")
-    @Pattern(regexp = "ACTIVE|INACTIVE", message = "Status must be ACTIVE or INACTIVE")
-    private String status;
+    @NotNull(message = "Status is required")
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters")
@@ -56,15 +57,15 @@ public class User extends BaseModel {
 
     public User(
         int id, String fullName, String username,
-        String email, String phone, String role,
-        String status, String imagePath, String password
+        String email, String phone, Set<Role> role,
+        UserStatus status, String imagePath, String password
     ) {
         this.id = id;
         this.fullName = fullName;
         this.username = username;
         this.email = email;
         this.phone = phone;
-        this.role = role;
+        this.roles = role;
         this.status = status;
         this.imagePath = imagePath;
         this.password = password;

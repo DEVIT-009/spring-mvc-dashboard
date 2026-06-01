@@ -1,0 +1,188 @@
+<div
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{admin/index}"
+        layout:fragment="content"
+>
+  <!-- Content Header -->
+  <section class="content-header">
+    <h1>
+      Edit Student
+      <small>Update existing student information</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#"><i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li><a th:href="@{/admin/v1/students/manage}">Manage Students</a></li>
+      <li class="active">Edit Student</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">Edit Student Information</h3>
+          </div>
+
+          <form
+                  th:action="@{/admin/v1/students/update/{id}(id=${student.id})}"
+                  method="post"
+                  enctype="multipart/form-data"
+                  th:object="${student}"
+          >
+            <div class="box-body">
+              <div class="row">
+                <!-- First Name -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>First Name</label>
+                    <input
+                            type="text"
+                            name="firstName"
+                            class="form-control"
+                            th:field="*{firstName}"
+                            required
+                    />
+                  </div>
+                </div>
+
+                <!-- Last Name -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Last Name</label>
+                    <input
+                            type="text"
+                            name="lastName"
+                            class="form-control"
+                            th:field="*{lastName}"
+                            required
+                    />
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            th:field="*{email}"
+                            required
+                    />
+                  </div>
+                </div>
+
+                <!-- Gender -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Gender</label>
+                    <select name="gender" class="form-control" required>
+                      <option value="MALE" th:selected="${student.gender == T(com.pos.dashboardmvc.enums.Gender).MALE}">Male</option>
+                      <option value="FEMALE" th:selected="${student.gender == T(com.pos.dashboardmvc.enums.Gender).FEMALE}">Female</option>
+                      <option value="OTHER" th:selected="${student.gender == T(com.pos.dashboardmvc.enums.Gender).OTHER}">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Date of Birth -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input
+                            type="date"
+                            name="dob"
+                            class="form-control"
+                            th:field="*{dob}"
+                            required
+                    />
+                  </div>
+                </div>
+
+                <!-- Address -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Address</label>
+                    <input
+                            type="text"
+                            name="address"
+                            class="form-control"
+                            th:field="*{address}"
+                            required
+                    />
+                  </div>
+                </div>
+
+                <!-- Subject Name -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Subject Name</label>
+                    <input
+                            type="text"
+                            name="subjectName"
+                            class="form-control"
+                            th:field="*{subjectName}"
+                            required
+                    />
+                  </div>
+                </div>
+
+                <!-- Profile Image -->
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label>Profile Image</label>
+
+                    <!-- Existing image -->
+                    <img
+                        th:if="${student.imagePath != null and student.imagePath != ''}"
+                        th:src="@{'/uploads/students/' + ${student.imagePath}}"
+                        alt="Profile"
+                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
+                    />
+
+                    <!-- Default image -->
+                    <img
+                        th:unless="${student.imagePath != null and student.imagePath != ''}"
+                        th:src="@{'/uploads/no-image.png'}"
+                        alt="Profile"
+                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;"
+                    />
+
+                    <!-- Upload new image -->
+                    <input
+                            type="file"
+                            name="image"
+                            class="form-control"
+                            accept="image/*"
+                    />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="box-footer">
+              <a th:href="@{/admin/v1/students}" class="btn btn-default">
+                <i class="fa-solid fa-angle-left"></i>
+                Back
+              </a>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa fa-save"></i> Update Student
+              </button>
+              <button
+                class="btn btn-warning"
+                type="reset"
+              >Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

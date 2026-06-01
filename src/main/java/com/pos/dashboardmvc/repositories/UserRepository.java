@@ -3,6 +3,11 @@ package com.pos.dashboardmvc.repositories;
 import com.pos.dashboardmvc.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+   Optional<User> findByUsername(String username);
+
+    boolean existsByUsername(String admin);
 }

@@ -1,72 +1,77 @@
 package com.pos.dashboardmvc.services;
 
+import com.pos.dashboardmvc.models.Role;
 import com.pos.dashboardmvc.models.User;
+import com.pos.dashboardmvc.repositories.RoleRepository;
+import com.pos.dashboardmvc.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
 
-    private final List<User> data = new ArrayList<>();
+    private final UserRepository userRepository;
     private final FileStorageService fileStorageService;
-    private int idCounter = 1;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+
     private final String subfolder = "users/";
 
-    // Suppose you have a Date object
-    private final Date now = new Date();
-
-    // Convert to LocalDateTime
-    private final LocalDateTime localNow = now.toInstant()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDateTime();
+    public UserService(
+            UserRepository userRepository,
+            FileStorageService fileStorageService,
+            PasswordEncoder passwordEncoder,
+            RoleRepository roleRepository
+    ) {
+        this.userRepository = userRepository;
+        this.fileStorageService = fileStorageService;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+    }
 
     private boolean isNotEmpty(String value) {
         return value != null && !value.trim().isEmpty();
     }
 
-    public UserService(FileStorageService fileStorageService) {
-        this.fileStorageService = fileStorageService;
-    }
-
     public List<User> listAll() {
-        return data;
+        return userRepository.findAll();
     }
 
     public User getUserById(int id) {
-        User filterUser = data.stream()
-                .filter(user -> user.getId() == id)
-                .findFirst()
-                .orElse(null);
-        if (filterUser == null) {
-            throw new RuntimeException("USER_NOT_FOUND");
-        }
-        return filterUser;
+        return userRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("USER_NOT_FOUND"));
     }
 
-    public void create(User formUser, MultipartFile image) {
+    public User create(User formUser, MultipartFile image) {
 
-        formUser.setId(idCounter++);
-        formUser.setCreatedAt(localNow);
-        formUser.setUpdatedAt(localNow);
+        formUser.setCreatedAt(LocalDateTime.now());
+        formUser.setUpdatedAt(LocalDateTime.now());
 
         if (image != null && !image.isEmpty()) {
-            String imagePath = fileStorageService.storeImage(image, subfolder);
+            String imagePath =
+                    fileStorageService.storeImage(image, subfolder);
             formUser.setImagePath(imagePath);
         } else {
             formUser.setImagePath("");
         }
 
-        data.add(formUser);
+        return userRepository.save(formUser);
     }
 
-    public void update(int id, User formUser, MultipartFile image) {
-        User user = this.getUserById(id);
+    public User update(
+            int id,
+            User formUser,
+            Integer roleId,
+            MultipartFile image
+    ) {
+
+        User user = getUserById(id);
 
         if (isNotEmpty(formUser.getFullName())) {
             user.setFullName(formUser.getFullName());
@@ -84,36 +89,64 @@ public class UserService {
             user.setPhone(formUser.getPhone());
         }
 
-        if (formUser.getRole() != null) {
-            user.setRole(formUser.getRole());
+        if (roleId != null) {
+
+            Role role = roleRepository
+                    .findById(roleId)
+                    .orElseThrow(() ->
+                            new RuntimeException(
+                                    "Role not found"
+                            ));
+
+            user.setRoles(Set.of(role));
         }
 
         if (formUser.getStatus() != null) {
             user.setStatus(formUser.getStatus());
         }
 
+        if (isNotEmpty(formUser.getPassword())) {
+            user.setPassword(formUser.getPassword());
+        }
+
         if (image != null && !image.isEmpty()) {
 
-            if (user.getImagePath() != null) {
-                fileStorageService.deleteImage(user.getImagePath(), subfolder);
+            if (user.getImagePath() != null &&
+                    !user.getImagePath().isBlank()) {
+
+                fileStorageService.deleteImage(
+                        user.getImagePath(),
+                        subfolder
+                );
             }
 
-            String imagePath = fileStorageService.storeImage(image, subfolder);
+            String imagePath =
+                    fileStorageService.storeImage(
+                            image,
+                            subfolder
+                    );
+
             user.setImagePath(imagePath);
         }
 
         user.setUpdatedAt(LocalDateTime.now());
+
+        return userRepository.save(user);
     }
 
     public void delete(int id) {
-        User user = this.getUserById(id);
 
-        String imagePath = user.getImagePath();
-        if (imagePath != null && !imagePath.isBlank()) {
-            fileStorageService.deleteImage(imagePath, subfolder);
+        User user = getUserById(id);
+
+        if (user.getImagePath() != null &&
+                !user.getImagePath().isBlank()) {
+
+            fileStorageService.deleteImage(
+                    user.getImagePath(),
+                    subfolder
+            );
         }
 
-        data.remove(user);
+        userRepository.delete(user);
     }
-
 }
