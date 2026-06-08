@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -30,12 +31,12 @@ public class SecurityConfig {
                             "/",
                             "/auth/login",
                             "/auth/register",
-                            "/error-page/**"
-        //                    "/css/**",
-        //                    "/js/**",
-        //                    "/img/**",
-        //                    "/plugins/**",
-        //                    "/bootstrap/**"
+                            "/error-page/**",
+                            "/css/**",
+                            "/js/**",
+                            "/img/**",
+                            "/plugins/**",
+                            "/bootstrap/**"
                     ).permitAll()
 
                             .requestMatchers("/admin/**")
@@ -43,6 +44,9 @@ public class SecurityConfig {
 
                             .anyRequest()
                             .authenticated()
+            )
+            .csrf(csrf -> csrf
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             )
             .formLogin(form -> form
                     .loginPage("/auth/login")

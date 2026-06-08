@@ -80,7 +80,7 @@ public class UserSeeder {
                 System.out.println("/// ADMIN Created.");
             }
 
-            if (!(userRepository.existsByUsername("admin"))) {
+            if (!(userRepository.existsByUsername("user"))) {
                 User user = new User();
                 user.setFullName("User");
                 user.setUsername("user");
